@@ -40,3 +40,28 @@ const a = prompt('Один из последних просмотренных ф
 
 personalMovieDB.movies[a] = b;
 personalMovieDB.movies[c] = d;
+
+
+const hamburger = 3;
+const fries = 3;
+const cola = 0;
+const nuggets = 2;
+ 
+if (hamburger === 3 && cola || fries === 3 && nuggets) {
+   console.log('Done!')
+}
+
+Пирамидка из звездочек
+
+let star = '';
+const lenght = 7;
+
+for (let i = 1; i < lenght; i++) {
+    for (let j = 0; j < i; j++) {
+        star += '*';
+    }
+    
+    star += '\n';
+}
+
+console.log(star);

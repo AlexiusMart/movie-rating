@@ -1,19 +1,6 @@
 'use strict'
 
-/* Задание на урок:
-
-1) У нас уже есть рабочее приложение, состоящее из отдельных функций. Представьте, что
-перед вами стоит задача переписать его так, чтобы все функции стали методами объекта personalMovieDB
-Такое случается в реальных продуктах при смене технологий или подхода к архитектуре программы
-
-2) Создать метод toggleVisibleMyDB, который при вызове будет проверять свойство privat. Если оно false - он
-переключает его в true, если true - переключает в false. Протестировать вместе с showMyDB.
-
-3) В методе writeYourGenres запретить пользователю нажать кнопку "отмена" или оставлять пустую строку. 
-Если он это сделал - возвращать его к этому же вопросу. После того, как все жанры введены - 
-при помощи метода forEach вывести в консоль сообщения в таком виде:
-"Любимый жанр #(номер по порядку, начиная с 1) - это (название из массива)"*/
-
+/*
 const personalMovieDB = {
     count: 0,
     movies: {},
@@ -75,5 +62,41 @@ const personalMovieDB = {
         });
     }
 };
-
+*/
 // rememberMyFilms() detectPersonalLevel() showMyDB(personalMovieDB.privat) writeYourGenres()
+
+
+
+'use strict';
+
+const movieDB = {
+    movies: [
+        "Логан",
+        "Лига справедливости",
+        "Ла-ла лэнд",
+        "Одержимость",
+        "Скотт Пилигрим против..."
+    ]
+};
+
+// Реклама
+
+const offAdvert = document.querySelectorAll('.promo__adv div, .promo__adv img'),
+      changeGenre = document.querySelector('.promo__genre'),
+      newBg = document.querySelector('.promo__bg'),
+      filmList = document.querySelectorAll('.promo__interactive-item');
+      
+offAdvert.forEach(item => {
+    item.remove();
+});
+
+changeGenre.textContent = 'Драма';
+
+newBg.style.backgroundImage = 'url("img/bg.jpg")';
+
+movieDB.movies.sort();
+
+for (let i = 0; i < filmList.length; i++) {
+    filmList[i].textContent = '';
+    filmList[i].textContent = `${i + 1}. ${movieDB.movies[i]}`;
+};

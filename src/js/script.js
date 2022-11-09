@@ -69,34 +69,84 @@ const personalMovieDB = {
 
 'use strict';
 
-const movieDB = {
-    movies: [
-        "Логан",
-        "Лига справедливости",
-        "Ла-ла лэнд",
-        "Одержимость",
-        "Скотт Пилигрим против..."
-    ]
-};
+document.addEventListener('DOMContentLoaded', () => {
 
-// Реклама
+    const movieDB = {
+        movies: [
+            "Логан",
+            "Лига справедливости",
+            "Ла-ла лэнд",
+            "Одержимость",
+            "Скотт Пилигрим против..."
+        ]
+    };
+    
+    const offAdvert = document.querySelectorAll('.promo__adv div, .promo__adv img'),
+          changeGenre = document.querySelector('.promo__genre'),
+          newBg = document.querySelector('.promo__bg'),
+          filmList = document.querySelectorAll('.promo__interactive-item'),
+          addForm = document.querySelector('form.add'),
+          checkbox = document.querySelector('[type="checkbox"]'),
+          newCinema = document.querySelector('.adding__input');
+        
+    // добавление фильма в список
+    addForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+    
+        const addCinema = newCinema.value;
+        movieDB.movies.push(addCinema);
+        sortArr(movieDB.movies);
+        changeList(movieDB.movies, filmList);
+        event.target.reset();
+    });
 
-const offAdvert = document.querySelectorAll('.promo__adv div, .promo__adv img'),
-      changeGenre = document.querySelector('.promo__genre'),
-      newBg = document.querySelector('.promo__bg'),
-      filmList = document.querySelectorAll('.promo__interactive-item');
-      
-offAdvert.forEach(item => {
-    item.remove();
+    // изменеие списка фильмов
+    function changeList(base, list) {
+        for (let i = 0; i < list.length; i++) {
+            list[i].textContent = '';
+            list[i].textContent = `${i + 1}. ${base[i]}`;
+        };
+    }
+
+    // удаление рекламы
+    const deleteAdv = (adv) => {
+        adv.forEach(item => {
+            item.remove();
+        });
+    }
+    
+    // разные изменения на странице
+    const changePage = () => {
+        changeGenre.textContent = 'Драма';
+    
+        newBg.style.backgroundImage = 'url("img/bg.jpg")';
+    }
+    
+    // сортировка массива
+    const sortArr = (arr) => {
+        arr.sort();
+    }
+
+    changePage();
+    deleteAdv(offAdvert);
+    sortArr(movieDB.movies);
+    changeList(movieDB.movies, filmList);
+
+    /* Задания на урок:
+    
+    1) Реализовать функционал, что после заполнения формы и нажатия кнопки "Подтвердить" - 
+    новый фильм добавляется в список. Страница не должна перезагружаться.
+    Новый фильм должен добавляться в movieDB.movies.
+    Для получения доступа к значению input - обращаемся к нему как input.value;
+    P.S. Здесь есть несколько вариантов решения задачи, принимается любой, но рабочий.
+    
+    2) Если название фильма больше, чем 21 символ - обрезать его и добавить три точки
+    
+    3) При клике на мусорную корзину - элемент будет удаляться из списка (сложно)
+    
+    4) Если в форме стоит галочка "Сделать любимым" - в консоль вывести сообщение: 
+    "Добавляем любимый фильм"
+    
+    5) Фильмы должны быть отсортированы по алфавиту */
+
 });
-
-changeGenre.textContent = 'Драма';
-
-newBg.style.backgroundImage = 'url("img/bg.jpg")';
-
-movieDB.movies.sort();
-
-for (let i = 0; i < filmList.length; i++) {
-    filmList[i].textContent = '';
-    filmList[i].textContent = `${i + 1}. ${movieDB.movies[i]}`;
-};

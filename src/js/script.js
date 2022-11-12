@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /*
 const personalMovieDB = {
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (newFilm) {
             if (newFilm.length > 21) {
-                newFilm = `${newFilm.substring(0, 22)}...`
+                newFilm = `${newFilm.substring(0, 22)}...`;
             }
 
             movieDB.movies.push(newFilm);

@@ -84,19 +84,27 @@ document.addEventListener('DOMContentLoaded', () => {
           addForm = document.querySelector('form.add'),
           checkbox = document.querySelector('[type="checkbox"]'),
           newCinema = document.querySelector('.adding__input');
-        
+
     // добавление фильма в список
     addForm.addEventListener('submit', (event) => {
         event.preventDefault();
     
-        const newFilm = newCinema.value;
+        let newFilm = newCinema.value;
         const favorite = checkbox.checked;
 
-        movieDB.movies.push(newFilm);
-        sortArr(movieDB.movies);
+        if (newFilm) {
+            if (newFilm.length > 21) {
+                newFilm = `${newFilm.substring(0, 22)}...`
+            }
 
-        createMovieList(movieDB.movies, filmList);
+            movieDB.movies.push(newFilm);
+            sortArr(movieDB.movies);
 
+            createMovieList(movieDB.movies, filmList);
+        }
+        if (favorite) {
+            console.log('Добавляем любимый фильм');
+        }
         event.target.reset();
     });    
 
@@ -122,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // изменеие списка фильмов
     function createMovieList(films, parent) {
         parent.innerHTML = "";
+        sortArr(films);
 
         films.forEach((film, i) => {
             parent.innerHTML += `
@@ -130,28 +139,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 </li>
             `;
         });
+
+
+        // удаление фильма корзиной
+        const deleteFilm = document.querySelectorAll('.delete');
+
+        deleteFilm.forEach((film, i) => {
+            film.addEventListener('click', () => {
+                film.parentElement.remove();
+                films.splice(i, 1);
+
+                createMovieList(films, parent);
+            });
+        });
     }
 
     deleteAdv(offAdvert);
     changePage();
-    sortArr(movieDB.movies);
     createMovieList(movieDB.movies, filmList);
-
-    /* Задания на урок:
     
-    1) Реализовать функционал, что после заполнения формы и нажатия кнопки "Подтвердить" - 
-    новый фильм добавляется в список. Страница не должна перезагружаться.
-    Новый фильм должен добавляться в movieDB.movies.
-    Для получения доступа к значению input - обращаемся к нему как input.value;
-    P.S. Здесь есть несколько вариантов решения задачи, принимается любой, но рабочий.
-    
-    2) Если название фильма больше, чем 21 символ - обрезать его и добавить три точки
-    
-    3) При клике на мусорную корзину - элемент будет удаляться из списка (сложно)
-    
-    4) Если в форме стоит галочка "Сделать любимым" - в консоль вывести сообщение: 
-    "Добавляем любимый фильм"
-    
-    5) Фильмы должны быть отсортированы по алфавиту */
-
 });

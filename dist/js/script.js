@@ -65,10 +65,6 @@ const personalMovieDB = {
 */
 // rememberMyFilms() detectPersonalLevel() showMyDB(personalMovieDB.privat) writeYourGenres()
 
-
-
-'use strict';
-
 document.addEventListener('DOMContentLoaded', () => {
 
     const movieDB = {
@@ -84,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const offAdvert = document.querySelectorAll('.promo__adv div, .promo__adv img'),
           changeGenre = document.querySelector('.promo__genre'),
           newBg = document.querySelector('.promo__bg'),
-          filmList = document.querySelectorAll('.promo__interactive-item'),
+          filmList = document.querySelector('.promo__interactive-list'),
           addForm = document.querySelector('form.add'),
           checkbox = document.querySelector('[type="checkbox"]'),
           newCinema = document.querySelector('.adding__input');
@@ -93,44 +89,53 @@ document.addEventListener('DOMContentLoaded', () => {
     addForm.addEventListener('submit', (event) => {
         event.preventDefault();
     
-        const addCinema = newCinema.value;
-        movieDB.movies.push(addCinema);
-        sortArr(movieDB.movies);
-        changeList(movieDB.movies, filmList);
-        event.target.reset();
-    });
+        const newFilm = newCinema.value;
+        const favorite = checkbox.checked;
 
-    // изменеие списка фильмов
-    function changeList(base, list) {
-        for (let i = 0; i < list.length; i++) {
-            list[i].textContent = '';
-            list[i].textContent = `${i + 1}. ${base[i]}`;
-        };
-    }
+        movieDB.movies.push(newFilm);
+        sortArr(movieDB.movies);
+
+        createMovieList(movieDB.movies, filmList);
+
+        event.target.reset();
+    });    
 
     // удаление рекламы
-    const deleteAdv = (adv) => {
-        adv.forEach(item => {
+    const deleteAdv = (arr) => {
+        arr.forEach(item => {
             item.remove();
         });
-    }
+    };
     
     // разные изменения на странице
     const changePage = () => {
         changeGenre.textContent = 'Драма';
     
         newBg.style.backgroundImage = 'url("img/bg.jpg")';
-    }
+    };
     
     // сортировка массива
     const sortArr = (arr) => {
         arr.sort();
+    };
+
+    // изменеие списка фильмов
+    function createMovieList(films, parent) {
+        parent.innerHTML = "";
+
+        films.forEach((film, i) => {
+            parent.innerHTML += `
+                <li class="promo__interactive-item">${i + 1} ${film}
+                    <div class="delete"></div>
+                </li>
+            `;
+        });
     }
 
-    changePage();
     deleteAdv(offAdvert);
+    changePage();
     sortArr(movieDB.movies);
-    changeList(movieDB.movies, filmList);
+    createMovieList(movieDB.movies, filmList);
 
     /* Задания на урок:
     
